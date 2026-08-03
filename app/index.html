@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Crucible3D — 3D Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#14161A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Crucible3D">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" href="icons/favicon.ico">
+</head>
+<body>
+<div id="app">
+  <div id="topbar">
+    <div id="brand"><img class="brand-logo" src="icons/favicon-48.png" alt="" width="20" height="20">Crucible3D</div>
+    <div id="project-name"></div>
+    <div id="scene-stats">0 objects</div>
+    <div class="spacer"></div>
+    <button class="chip-btn icon" id="btn-undo" disabled title="Undo (Ctrl+Z)">↶</button>
+    <button class="chip-btn icon" id="btn-redo" disabled title="Redo (Ctrl+Shift+Z)">↷</button>
+    <button class="chip-btn" id="btn-animate">Animate</button>
+    <button class="chip-btn" id="btn-file">File ▾</button>
+  </div>
+  <div id="viewport">
+    <div id="rail"></div>
+    <div id="props"><h2>Properties</h2><div id="props-body"></div></div>
+    <div id="hint"></div>
+    <button id="lift-chip">Lift ↑↓ off</button>
+    <div id="pen-depth" class="pen-depth" style="display:none">
+      <span class="pd-label">Pen depth</span>
+      <button class="pd-btn" id="pd-near" title="Nearer (Ctrl+↓)">−</button>
+      <input type="range" id="pd-range" min="-8" max="8" step="0.15" value="0">
+      <button class="pd-btn" id="pd-far" title="Farther (Ctrl+↑)">+</button>
+      <span class="pd-val mono" id="pd-val">0.0</span>
+    </div>
+    <svg id="slice-overlay"><line id="slice-line"/></svg>
+    <div id="phud">
+      <div id="phud-panel">
+        <div id="phud-view"></div>
+        <div id="phud-tag">Preview</div>
+        <div id="phud-resize" title="Resize"></div>
+      </div>
+      <button id="phud-tab" title="Hide preview">‹</button>
+    </div>
+  </div>
+  <div id="timeline">
+    <div id="timeline-head">
+      <button id="tl-play" title="Play / pause">▶</button>
+      <div id="tl-fps"><label>FPS</label><input type="range" id="tl-fps-range" min="1" max="24" value="6"><span id="tl-fps-val">6</span></div>
+      <button class="tl-btn" id="tl-onion" title="Onion skin: ghost adjacent frames">◍ Onion</button>
+      <div class="tl-spacer"></div>
+      <span id="tl-status">No frames yet</span>
+      <button class="tl-btn" id="tl-capture">＋ Capture frame</button>
+      <button class="tl-btn" id="tl-update" title="Overwrite current frame with this pose">Update</button>
+      <button class="tl-btn" id="tl-close">Done</button>
+    </div>
+    <div id="tl-clips-bar">
+      <label>Animation</label>
+      <select id="tl-clip-select" title="Which animation you're editing"></select>
+      <button class="tl-clip-btn" id="tl-clip-add" title="New animation clip">＋</button>
+      <button class="tl-clip-btn" id="tl-clip-rename" title="Rename this clip">✎</button>
+      <button class="tl-clip-btn" id="tl-clip-dup" title="Duplicate this clip">⧉</button>
+      <button class="tl-clip-btn danger" id="tl-clip-del" title="Delete this clip">🗑</button>
+      <span class="tl-clip-hint">each clip exports as a separate animation in the GLB</span>
+    </div>
+    <div id="tl-frames"></div>
+  </div>
+  <div id="dock"></div>
+  <div id="scrim"></div>
+  <div id="file-menu"></div>
+  <div id="toast"></div>
+  <input type="file" id="scene-file-input" accept=".json,application/json" style="display:none">
+  <div class="sheet" id="sheet-add"><div class="grabber"></div><h2>Add object</h2><div class="add-grid" id="add-grid"></div></div>
+  <div class="sheet" id="sheet-props"><div class="grabber"></div><h2>Object</h2><div id="sheet-props-body"></div></div>
+</div>
+
+<div id="lobby">
+  <div class="lobby-inner">
+    <div class="lobby-head">
+      <div id="brand-lg"><img class="brand-logo" src="icons/icon-192.png" alt="" width="30" height="30">Crucible3D</div>
+      <div class="lobby-links">
+        <button id="account-btn" data-state="out">Sign in</button>
+        <button id="btn-settings">⚙ Settings</button>
+        <a href="guide.html" target="_blank" rel="noopener">User guide ↗</a>
+        <a href="README.md" target="_blank" rel="noopener">README ↗</a>
+      </div>
+    </div>
+    <h1>Projects</h1>
+    <div id="upgrade-slot"></div>
+    <div id="folder-bar"></div>
+    <div id="project-grid"></div>
+  </div>
+</div>
+<div id="settings"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script type="module" src="js/main.js"></script>
+<script>
+  // Register the service worker for offline use / installability.
+  // Guarded so it's a no-op on file:// or unsupported browsers.
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

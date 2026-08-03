@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crucible3D — Press Kit &amp; Feature Sheet</title>
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14161A; --black:#0E0F12; --panel:#1B1E24; --panel2:#22262E; --line:#2A2F38;
+    --ember:#FF9838; --ember-hot:#FF6B2C; --ash:#8B93A1; --paper:#E8EAED;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--black);color:var(--paper);font-family:'Inter',sans-serif;line-height:1.6;
+    -webkit-font-smoothing:antialiased}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .sheet{max-width:900px;margin:0 auto;padding:56px 48px}
+  a{color:var(--ember);text-decoration:none}
+
+  /* header */
+  .kit-head{display:flex;align-items:flex-start;justify-content:space-between;gap:30px;
+    padding-bottom:28px;border-bottom:2px solid var(--ember);margin-bottom:8px}
+  .brand{display:flex;align-items:center;gap:13px}
+  .brand .brand-logo{width:36px;height:36px;border-radius:8px;display:block;flex:none}
+  .brand-name{font-family:'Space Grotesk';font-weight:700;font-size:26px;letter-spacing:-.02em}
+  .kit-label{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ash);text-align:right;padding-top:6px}
+  .kit-label b{display:block;color:var(--ember);font-size:13px;margin-bottom:3px}
+
+  .tagline{font-family:'Space Grotesk';font-weight:600;font-size:23px;letter-spacing:-.015em;
+    line-height:1.25;margin:26px 0 8px;max-width:680px}
+  .tagline .heat{color:var(--ember)}
+  .oneline{font-size:15.5px;color:#B4BAC4;max-width:640px;margin-bottom:34px}
+
+  /* section */
+  .block{margin-bottom:32px}
+  .block-title{font-family:'IBM Plex Mono';font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ember);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .block-title::after{content:'';flex:1;height:1px;background:var(--line)}
+  p.body{font-size:14.5px;color:#C4CAD3;margin-bottom:12px}
+
+  /* fast facts grid */
+  .facts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .fact{background:var(--panel);padding:16px 18px}
+  .fact dt{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ash);margin-bottom:5px}
+  .fact dd{font-size:14.5px;color:var(--paper);font-weight:500}
+
+  /* feature columns */
+  .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .feat-col h4{font-family:'Space Grotesk';font-weight:600;font-size:15px;color:var(--ember);
+    margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .feat-col ul{list-style:none}
+  .feat-col li{font-size:13.5px;color:#C4CAD3;padding:6px 0 6px 18px;position:relative;line-height:1.5}
+  .feat-col li::before{content:'▸';position:absolute;left:0;color:var(--ember);font-size:11px;top:7px}
+  .feat-col li b{color:var(--paper);font-weight:600}
+
+  /* quote / positioning pull */
+  .pull{border-left:3px solid var(--ember);padding:6px 0 6px 22px;margin:8px 0 4px;
+    font-family:'Space Grotesk';font-weight:500;font-size:18px;line-height:1.4;color:var(--paper)}
+
+  /* who it's for */
+  .audience{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .aud{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .aud h5{font-family:'Space Grotesk';font-weight:600;font-size:14px;margin-bottom:6px}
+  .aud p{font-size:12.5px;color:var(--ash);line-height:1.45}
+
+  /* boilerplate + contact */
+  .boiler{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+  .boiler p{font-size:13.5px;color:#B4BAC4;line-height:1.6}
+  .contact-row{display:flex;gap:30px;flex-wrap:wrap;margin-top:14px;font-family:'IBM Plex Mono';font-size:13px}
+  .contact-row div span{color:var(--ash);display:block;font-size:10.5px;letter-spacing:.06em;
+    text-transform:uppercase;margin-bottom:3px}
+
+  footer{border-top:1px solid var(--line);margin-top:36px;padding-top:20px;
+    font-family:'IBM Plex Mono';font-size:11.5px;color:var(--ash);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  @media(max-width:680px){
+    .sheet{padding:36px 24px}
+    .facts,.feat-grid,.audience{grid-template-columns:1fr}
+    .kit-head{flex-direction:column;gap:16px}
+    .kit-label{text-align:left}
+  }
+  @media print{
+    body{background:#fff;color:#111}
+    .sheet{max-width:100%}
+    .fact,.aud,.boiler,.feat-col{background:#fff}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="kit-head">
+    <div class="brand"><img class="brand-logo" src="assets/logo.png" alt="" width="36" height="36"><span class="brand-name">Crucible3D</span></div>
+    <div class="kit-label"><b>Press Kit</b>Feature Sheet · 2026</div>
+  </div>
+
+  <div class="tagline">A complete 3D modeling and stop-motion animation studio
+    that <span class="heat">runs entirely in a web browser</span> — laptop or phone, no install.</div>
+  <p class="oneline">Crucible3D removes the two biggest barriers to making 3D: expensive,
+    heavyweight desktop software, and the assumption that you need a powerful computer to run it.
+    It opens in a browser tab and works on the device already in your pocket.</p>
+
+  <div class="block">
+    <div class="block-title">Fast facts</div>
+    <dl class="facts">
+      <div class="fact"><dt>What it is</dt><dd>Browser-based 3D modeling + animation studio</dd></div>
+      <div class="fact"><dt>Platforms</dt><dd>Any modern browser · desktop &amp; mobile · installable (PWA)</dd></div>
+      <div class="fact"><dt>Price</dt><dd>Free to try · $10 one-time to own (no subscription)</dd></div>
+      <div class="fact"><dt>Install / download</dt><dd>None required — runs from a URL</dd></div>
+      <div class="fact"><dt>Export formats</dt><dd>GLB, OBJ, FBX + animated GLB &amp; GIF</dd></div>
+      <div class="fact"><dt>Works offline</dt><dd>Yes — installable offline build included</dd></div>
+    </dl>
+  </div>
+
+  <div class="block">
+    <div class="block-title">The pitch</div>
+    <div class="pull">"Forge 3D models in the tab you already have open."</div>
+    <p class="body">Most 3D tools ask you to download gigabytes, learn a dense professional
+      interface, and sit at a desktop workstation. Crucible3D is the opposite bet: a genuinely
+      capable modeling and animation studio that loads instantly in a browser, adapts to touch on
+      a phone, and lets anyone curious start shaping something in seconds — then export it to the
+      professional formats the rest of the 3D world already uses.</p>
+  </div>
+
+  <div class="block">
+    <div class="block-title">What you can do</div>
+    <div class="feat-grid">
+      <div class="feat-col">
+        <h4>Model &amp; sculpt</h4>
+        <ul>
+          <li><b>Eight base shapes</b> including a stylized head to start figures</li>
+          <li><b>Move, rotate, scale</b> with touch or mouse; long-press to grab</li>
+          <li><b>Mesh tools:</b> deform vertices, push/pull faces, slice, hollow</li>
+          <li><b>More tools:</b> mirror, flip, clone, merge multiple objects</li>
+          <li><b>Magic Pen</b> — draw freehand 3D tubes in space</li>
+        </ul>
+      </div>
+      <div class="feat-col">
+        <h4>Finish &amp; animate</h4>
+        <ul>
+          <li><b>Image textures</b> with automatic UV mapping</li>
+          <li><b>Per-object transparency</b> and per-project lighting</li>
+          <li><b>Stop-motion timeline</b> — pose frame by frame</li>
+          <li><b>Onion-skinning</b> to line up each next pose</li>
+          <li><b>Export animated GLB</b> for Blender, Unity, Unreal</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Who it's for</div>
+    <div class="audience">
+      <div class="aud"><h5>The curious</h5><p>Anyone who's wanted to try 3D but bounced off
+        complicated, expensive software. Open a tab, start making.</p></div>
+      <div class="aud"><h5>Makers &amp; printers</h5><p>Model a part on your phone and export a
+        clean mesh straight to a slicer for 3D printing.</p></div>
+      <div class="aud"><h5>Creators &amp; students</h5><p>Build game-ready assets or animated
+        clips and export to the formats the pros already use.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">What makes it different</div>
+    <div class="feat-grid">
+      <div class="feat-col">
+        <ul>
+          <li><b>No install, ever.</b> It's a URL, not a 3 GB download.</li>
+          <li><b>Truly mobile-first.</b> Designed for touch, not shrunk from desktop.</li>
+        </ul>
+      </div>
+      <div class="feat-col">
+        <ul>
+          <li><b>Own it for $10.</b> One time. No subscription, no export fees.</li>
+          <li><b>Real export.</b> Industry-standard formats with materials intact.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title">Boilerplate</div>
+    <div class="boiler">
+      <p>Crucible3D is a browser-based 3D modeling and stop-motion animation studio that runs on
+        any modern device without an install. It combines primitive and mesh modeling tools, freehand
+        3D drawing, image texturing, per-project lighting, and a frame-by-frame animation timeline,
+        and exports to GLB, OBJ, and FBX. The full studio is free to try with one saved project; a
+        one-time $10 purchase unlocks unlimited projects, exporting, and an installable offline build.</p>
+      <div class="contact-row">
+        <div><span>Web</span>your-crucible3d-url.com</div>
+        <div><span>Contact</span>you@your-domain.com</div>
+        <div><span>Press</span>press@your-domain.com</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>Crucible3D — Press Kit 2026</span>
+    <span>Replace contact + URL fields before sending · assets available on request</span>
+  </footer>
+
+</div>
+</body>
+</html>
