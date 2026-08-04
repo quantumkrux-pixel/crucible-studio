@@ -257,14 +257,24 @@ export default class ObjectManager {
     items.forEach(o => {
       o.updateMatrixWorld(true);
       nm.getNormalMatrix(o.matrixWorld);
-      // this object's color (linear space, so vertex colors blend correctly)
+      // this object's uniform color (linear space, so vertex colors blend
+      // correctly). If the object ALREADY has per-vertex colors (e.g. it
+      // was itself a merge), read them per-vertex below instead.
       col.copy(o.material.color);
+      const srcColors = (o.material.vertexColors && o.geometry.attributes.color)
+        ? o.geometry.attributes.color : null;
       if (o.material.map) anyTextured = true;
       const g = o.geometry, pos = g.attributes.position, nor = g.attributes.normal, idx = g.index;
       const emit = i => {
         v.fromBufferAttribute(pos, i).applyMatrix4(o.matrixWorld);
         n.fromBufferAttribute(nor, i).applyMatrix3(nm).normalize();
-        merged.push(v.x, v.y, v.z, n.x, n.y, n.z, col.r, col.g, col.b);
+        // per-vertex color if the source has one, else the uniform color
+        let r = col.r, gg = col.g, b = col.b;
+        if (srcColors){
+          const cs = srcColors.itemSize || 3;
+          r = srcColors.array[i*cs]; gg = srcColors.array[i*cs+1]; b = srcColors.array[i*cs+2];
+        }
+        merged.push(v.x, v.y, v.z, n.x, n.y, n.z, r, gg, b);
       };
       if (idx) for (let i = 0; i < idx.count; i++) emit(idx.getX(i));
       else for (let i = 0; i < pos.count; i++) emit(i);

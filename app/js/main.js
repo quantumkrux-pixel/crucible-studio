@@ -7,6 +7,7 @@ import EventBus from './core/EventBus.js';
 import SceneManager from './core/SceneManager.js';
 import CameraControls from './core/CameraControls.js';
 import ObjectManager from './core/ObjectManager.js';
+import AnchorManager from './core/AnchorManager.js';
 import ToolManager from './core/ToolManager.js';
 import InteractionManager from './core/InteractionManager.js';
 import HistoryManager from './core/HistoryManager.js';
@@ -71,6 +72,19 @@ class App {
 
     // ---- wire components ----
     this.interaction = new InteractionManager(bus, sm, cam, om, tm);
+    // anchor system: bind objects to points on other objects
+    this.anchors = new AnchorManager(bus, om);
+    sm.addRenderHook(() => this.anchors.enforce(sm.camera));
+    bus.on('anchor:bind', ({ a, b }) => {
+      this.anchors.bind(a, b);
+      this.projects?.saveCurrent?.();
+      import('./ui/toast.js').then(({ default: toast }) => toast(`Anchored to ${b.userData.name || 'object'}`));
+    });
+    bus.on('anchor:cancel', () => {
+      import('./ui/toast.js').then(({ default: toast }) => toast('Anchor cancelled'));
+    });
+    // drop bindings whose objects no longer exist (after deletes/merges)
+    bus.on('objects:changed', () => this.anchors.pruneMissing());
     this.palette = new TexturePalette(bus);
     this.paintStudio = new PaintStudio(dataURL => {
       this.palette.add(dataURL);
@@ -78,7 +92,8 @@ class App {
     });
     this.props = new PropertiesPanel(bus, om,
       [document.getElementById('props-body'), document.getElementById('sheet-props-body')],
-      { palette: this.palette, paintStudio: this.paintStudio });
+      { palette: this.palette, paintStudio: this.paintStudio, anchors: this.anchors });
+    bus.on('anchors:changed', () => { if (om.selected) this.props.render(); });
     this.ui = new UIManager(bus, om, tm, [
       { id:'mesh', label:'Mesh', tools:['deform','face','slice'] },
       { id:'more', label:'More Tools…', short:'More…', tools:['mirror','flip-h','flip-v','clone','merge','hollow'] }
@@ -103,7 +118,7 @@ class App {
     // ---- projects ----
     const folder = folderSupported() ? new FolderStore() : null;
     if (folder) folder.tryRestore().catch(() => {});
-    this.projects = new ProjectManager(bus, sm, cam, om, store, this.settings, folder, this.timeline, this.palette);
+    this.projects = new ProjectManager(bus, sm, cam, om, store, this.settings, folder, this.timeline, this.palette, this.anchors);
     this.fileMenu = new FileMenu(bus, om, cam, this.projects, this.license);
 
     // ---- boot ----

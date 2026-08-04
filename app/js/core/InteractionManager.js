@@ -19,6 +19,16 @@ export default class InteractionManager {
     this.drag = { active:false, kind:null, sx:0, sy:0, lx:0, ly:0, moved:false, button:0,
                   pinchDist:0, pinchMid:{x:0,y:0}, ctx:{} };
     this.lp = { timer:null, target:null, ctx:null };   // long-press state
+    this._anchorPending = null;
+    // enter anchor targeting: next object tap binds `a` to the tapped object
+    bus.on('anchor:start', a => {
+      this._anchorPending = a;
+      document.body.classList.add('anchor-targeting');
+    });
+    bus.on('anchor:cancelMode', () => {
+      this._anchorPending = null;
+      document.body.classList.remove('anchor-targeting');
+    });
     this.#bind(sceneManager.renderer.domElement);
     this.#keys();
   }
@@ -137,6 +147,18 @@ export default class InteractionManager {
       this.bus.emit('object:released');
     } else if (d.active && !d.moved){
       const hit = this.pick(x, y);
+      // anchor targeting: the next object tap binds the pending object to it
+      if (this._anchorPending){
+        const src = this._anchorPending;
+        this._anchorPending = null;
+        document.body.classList.remove('anchor-targeting');
+        if (hit && hit !== src){
+          this.bus.emit('anchor:bind', { a: src, b: hit });
+        } else {
+          this.bus.emit('anchor:cancel');
+        }
+        return;
+      }
       if (d.additive){
         if (hit) this.om.toggleSelect(hit);   // shift-click / Multi tool
       } else {
@@ -198,6 +220,38 @@ export default class InteractionManager {
     window.addEventListener('keydown', e => {
       if (e.target.tagName === 'INPUT') return;
       const k = e.key.toLowerCase();
+
+      // ---- Shift+Alt: quick-move the selected object with arrow keys ----
+      // Up/Down = vertical (world Y); Left/Right = horizontal, relative to
+      // the camera so it always matches screen-left / screen-right.
+      if (e.shiftKey && e.altKey && e.key.startsWith('Arrow')){
+        const obj = this.om.selected;
+        if (obj){
+          e.preventDefault();
+          // switch to the Move tool for visual consistency
+          if (this.tm.active !== 'move') this.tm.setActive('move');
+          const step = 0.1;   // world units per press
+          const cam = this.sm.camera;
+          if (e.key === 'ArrowUp')   obj.position.y += step;
+          if (e.key === 'ArrowDown') obj.position.y -= step;
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
+            // camera "right" vector, flattened to the horizontal plane so
+            // the object slides left/right on screen without drifting in Y
+            cam.updateMatrixWorld();
+            const right = new THREE.Vector3().setFromMatrixColumn(cam.matrixWorld, 0);
+            right.y = 0;
+            if (right.lengthSq() < 1e-6) right.set(1, 0, 0);
+            right.normalize().multiplyScalar(e.key === 'ArrowRight' ? step : -step);
+            obj.position.add(right);
+          }
+          this.bus.emit('object:transformed', obj);
+          // debounce a history commit so a burst of presses is one undo step
+          clearTimeout(this._nudgeCommit);
+          this._nudgeCommit = setTimeout(() => this.bus.emit('history:commit'), 400);
+        }
+        return;
+      }
+
       if (e.ctrlKey || e.metaKey){
         if (k === 'z'){ e.preventDefault(); this.bus.emit(e.shiftKey ? 'history:redo' : 'history:undo'); }
         if (k === 'y'){ e.preventDefault(); this.bus.emit('history:redo'); }
@@ -212,7 +266,10 @@ export default class InteractionManager {
       for (const [id, def] of this.tm.tools) if (def.key === k) this.tm.setActive(id);
       if ((k === 'delete' || k === 'backspace') && this.om.selected) this.om.remove(this.om.selected);
       if (k === 'd' && this.om.selected) this.om.duplicate(this.om.selected);
-      if (k === 'escape') this.om.select(null);
+      if (k === 'escape'){
+        if (this._anchorPending){ this.bus.emit('anchor:cancelMode'); return; }
+        this.om.select(null);
+      }
     });
   }
 }

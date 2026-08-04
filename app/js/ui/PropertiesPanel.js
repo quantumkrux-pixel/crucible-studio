@@ -7,6 +7,7 @@ export default class PropertiesPanel {
     this.bus = bus; this.om = objectManager; this.mounts = mounts;
     this.palette = opts.palette || null;
     this.paintStudio = opts.paintStudio || null;
+    this.anchors = opts.anchors || null;
     this.sortMode = 'age';   // 'age' (creation order) or 'type'
     bus.on('selection:changed', () => this.render());
     bus.on('object:transformed', () => this.sync());
@@ -126,6 +127,9 @@ export default class PropertiesPanel {
       <div class="prop-row"><label>Scale</label>${vec('scl',[s.x.toFixed(2),s.y.toFixed(2),s.z.toFixed(2)],'0.1')}</div>
       <div class="action-row">
         <button class="action-btn" data-act="dup">Duplicate</button>
+        ${this.anchors?.isAnchored(sel.userData.uid)
+          ? '<button class="action-btn" data-act="unanchor">⚓ Unanchor</button>'
+          : '<button class="action-btn" data-act="anchor">⚓ Anchor…</button>'}
         <button class="action-btn danger" data-act="del">Delete</button>
       </div>`;
   }
@@ -289,7 +293,20 @@ export default class PropertiesPanel {
     }
     root.querySelectorAll('[data-act]').forEach(b => b.addEventListener('click', () => {
       const o = sel(); if (!o) return;
-      b.dataset.act === 'del' ? this.om.remove(o) : this.om.duplicate(o);
+      const act = b.dataset.act;
+      if (act === 'anchor'){
+        // enter targeting mode: next object click binds o to it
+        this.bus.emit('anchor:start', o);
+        import('./toast.js').then(({ default: toast }) => toast('Click the object to anchor to'));
+        this.bus.emit('sheets:close');
+        return;
+      }
+      if (act === 'unanchor'){
+        this.anchors?.unbind(o.userData.uid);
+        this.render();
+        return;
+      }
+      act === 'del' ? this.om.remove(o) : this.om.duplicate(o);
       this.bus.emit('sheets:close');
     }));
   }

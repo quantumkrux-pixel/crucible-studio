@@ -9,10 +9,10 @@ import toast from '../ui/toast.js';
 // A per-project scene-theme override is stored in the project data
 // ('theme' field) and applied through SettingsPanel on open.
 export default class ProjectManager {
-  constructor(bus, sceneManager, cameraControls, objectManager, store, settings, folder = null, timeline = null, palette = null){
+  constructor(bus, sceneManager, cameraControls, objectManager, store, settings, folder = null, timeline = null, palette = null, anchors = null){
     this.bus = bus; this.sm = sceneManager; this.cam = cameraControls;
     this.om = objectManager; this.store = store; this.settings = settings;
-    this.folder = folder; this.timeline = timeline; this.palette = palette;
+    this.folder = folder; this.timeline = timeline; this.palette = palette; this.anchors = anchors;
     this.current = null;
     this.penDepth = 0;
     // track the Magic Pen draw depth so it persists with the project
@@ -66,6 +66,7 @@ export default class ProjectManager {
     this.settings.setProjectLighting(null);   // default: both lights on
     this.timeline?.fromJSON(null);
     this.palette?.fromJSON(null);
+    this.anchors?.fromJSON(null);
     this.penDepth = 0;
     this.bus.emit('pen:setDepth', 0);
     this.bus.emit('history:reset');
@@ -90,6 +91,7 @@ export default class ProjectManager {
     this.settings.setProjectLighting(doc?.lighting ?? null);
     this.timeline?.fromJSON(doc?.animation ?? null);
     this.palette?.fromJSON(doc?.textures ?? null);
+    this.anchors?.fromJSON(doc?.anchors ?? null);
     this.penDepth = doc?.penDepth ?? 0;
     this.bus.emit('pen:setDepth', this.penDepth);
     this.bus.emit('history:reset');
@@ -103,6 +105,7 @@ export default class ProjectManager {
         lighting: this.settings.lighting,
         animation: this.timeline?.toJSON(),
         textures: this.palette?.toJSON(),
+        anchors: this.anchors?.toJSON(),
         penDepth: this.penDepth || undefined });
     await this.store.saveProject(this.current.id, json, this.#thumbnail());
     // mirror to the linked folder as a real .json file

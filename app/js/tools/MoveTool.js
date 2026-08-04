@@ -4,7 +4,7 @@
 export default {
   label:'Move', key:'g',
   icon:'<path d="M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3"/>',
-  hint: s => s.lift ? 'drag selected object up / down' : 'drag selected object along the ground',
+  hint: s => (s.lift ? 'drag selected object up / down' : 'drag selected object along the ground') + ' · Shift+Alt+arrows to nudge',
   begin(x, y, ctx){
     const { object, camera, state } = ctx;
     ctx.plane = new THREE.Plane();
