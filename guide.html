@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crucible3D — User Guide</title>
+<link href="vendor/fonts/fonts.css" rel="stylesheet">
+<style>
+:root{--ink:#14161A;--panel:#1D2026;--panel-2:#23272F;--line:#2C313A;--text:#E8EAED;--muted:#8B93A1;--select:#FF9838}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--text);font-family:'Space Grotesk',system-ui,sans-serif;
+  font-size:14.5px;line-height:1.65}
+.wrap{max-width:760px;margin:0 auto;padding:36px 20px 80px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;margin-bottom:6px}
+.brand .cube{width:16px;height:16px;border:2px solid var(--select);transform:rotate(45deg);border-radius:2px}
+.sub{color:var(--muted);margin-bottom:36px}
+h2{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--select);
+  margin:34px 0 10px;font-weight:600}
+p{margin-bottom:10px;color:var(--text)}
+strong{font-weight:600}
+kbd{font-family:'IBM Plex Mono',monospace;font-size:12px;background:var(--panel-2);
+  border:1px solid var(--line);border-radius:5px;padding:1.5px 6px}
+table{width:100%;border-collapse:collapse;margin:8px 0 4px}
+td{padding:7px 10px;border:1px solid var(--line);font-size:13.5px}
+td:first-child{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);width:38%}
+a.back{color:var(--muted);font-size:12.5px;text-decoration:none;border:1px solid var(--line);
+  border-radius:8px;padding:6px 12px;background:var(--panel);display:inline-block;margin-bottom:28px}
+a.back:hover{color:var(--text);border-color:var(--muted)}
+.note{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;
+  color:var(--muted);font-size:13px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">← Back to Crucible3D</a>
+  <div class="brand"><div class="cube"></div>Crucible3D</div>
+  <div class="sub">User guide</div>
+
+  <h2>Projects</h2>
+  <p>Crucible3D opens in the <strong>project lobby</strong>. Create a project with the dashed
+  <strong>New project</strong> card (name it, press Enter), or tap any card to reopen it —
+  each card shows a thumbnail of your scene, with buttons to rename (✎), clone (⧉), and
+  delete (✕) it. Projects save automatically whenever you
+  return to the lobby (tap the Crucible3D mark in the top-left, or File ▾ → All projects),
+  and on demand via <strong>File ▾ → Save project</strong>.</p>
+  <p>The lobby's <strong>⚙ Settings</strong> button lets you pick the viewport's color
+  theme — Graphite (dark neutral), Espresso (dark brown with a burnt-orange grid), or
+  Harbor (navy with a pale-blue grid). The choice applies to all projects and is
+  remembered between visits. Individual projects can override it via
+  <strong>File ▾ → Scene &amp; lighting…</strong>, where an "App default" card returns the
+  project to the global choice. Settings also has a <strong>Show gridlines</strong>
+  toggle to hide or show the floor grid.</p>
+  <p>The same <strong>Scene &amp; lighting…</strong> panel has <strong>Lighting</strong>
+  switches: turn the <strong>Key light</strong> (the sun, which casts shadows) or the
+  <strong>Fill light</strong> (soft ambient light) on or off to change the mood — dramatic
+  single-source shadows, flat even lighting, or a dark silhouette look. These are saved
+  per project.</p>
+
+  <h2>Selecting &amp; merging</h2>
+  <p>Click or tap an object to select it. To select several at once, <strong>Shift-click</strong>
+  on desktop, or use the <strong>Multi</strong> tool on touch and tap each object to add or
+  remove it — every selected object gets its own orange highlight. With two or more selected,
+  <strong>More Tools… → Merge</strong> combines them into a single object. Merging bakes each
+  object's position and rotation into the shape, so the result looks identical but behaves as
+  one mesh you can move, slice, or export together.</p>
+
+  <h2>Magic Pen</h2>
+  <p>The <strong>Pen</strong> tool lets you draw in 3D freehand. Press and drag (or
+  touch-drag) and a smooth tube traces your path, becoming a real object you can move,
+  slice, deform, and export. Strokes are drawn on a plane that faces you through the
+  scene's center — so to draw at a different depth or angle, <strong>orbit the camera
+  first</strong>, then draw. Building a wireframe shape is a matter of drawing a few
+  strokes, rotating between each. No object needs to be selected to use it.</p>
+
+  <h2>Live preview</h2>
+  <p>A small <strong>preview window</strong> in the bottom-left corner shows your whole
+  scene slowly rotating, auto-framed as it grows — a second angle on your model while
+  you work. Drag the corner handle to resize it, and tap the slim arrow tab beside it
+  to hide or show it; Crucible3D remembers both your size and open/closed choice.</p>
+
+  <h2>Navigating the viewport</h2>
+  <p><strong>Desktop:</strong> drag to orbit, scroll to zoom, right-drag (or Shift-drag) to pan.
+  Click an object to select it; click empty space to deselect.</p>
+  <p><strong>Touch:</strong> one finger orbits, two fingers pinch-zoom and pan.
+  Tap an object to select.</p>
+  <p><strong>Quick move (long-press):</strong> press and hold on any object for half a second —
+  without picking the Move tool first — and it's "grabbed." Keep holding and drag to slide it
+  along the ground, then release to drop. Handy for quickly nudging things into place. (Start
+  dragging right away instead and you'll orbit the camera as usual.)</p>
+
+  <h2>Building</h2>
+  <p>Add primitives from the left rail (desktop) or the <strong>Add</strong> button in the
+  bottom dock (mobile) — cube, sphere, cylinder, cone, pyramid, torus, plane, and a basic
+  head to start figures or busts from. The properties panel — right side on desktop, the
+  <strong>Object</strong> sheet on mobile — edits the selected object's name, color, and exact
+  position / rotation / scale, and offers Duplicate and Delete.</p>
+  <p>When <strong>nothing is selected</strong>, that same panel becomes a <strong>scene list</strong>:
+  every object in the scene shown with its color and type. Tap any entry to select it (handy
+  when objects overlap or hide behind each other), or use the ✕ on a row to delete it.</p>
+  <p>To wrap an image onto an object — wood grain, brick, a photo — use
+  <strong>Import image…</strong> in the properties panel's Texture row. The image maps across
+  the surface automatically (Crucible3D generates the needed coordinates, including for pen
+  strokes and sliced or merged shapes). Picking a flat color again clears the texture, and
+  textures are saved with the project and embedded in <strong>.glb</strong> exports.</p>
+
+  <h2>Tools</h2>
+  <p><strong>Move</strong> drags the selected object along the ground; toggle the
+  <strong>Lift</strong> chip to move it up and down instead. <strong>Scale</strong> drags on the
+  selected object.</p>
+  <p><strong>Rotate</strong> shows a colored axis guide around the object — three rings, red for
+  X, green for Y, blue for Z. Grab a ring and drag to spin the object precisely around just that
+  axis; drag anywhere else on the object to rotate it freely in any direction.</p>
+  <p>The <strong>Mesh</strong> button expands into two shape-editing tools:</p>
+  <p><strong>Deform</strong> shows orange points on every vertex — drag one to pull the surface.
+  Welded corners move together so the mesh stretches rather than tears.</p>
+  <p><strong>Face</strong> lets you grab a whole face and push or pull it along its own axis —
+  for example, drag one side of a cube to stretch it into a rectangular beam. An arrow
+  shows the drag direction while you hold it.</p>
+  <p><strong>Slice</strong> cuts an object in two: drag a line across it and the mesh is
+  split by that plane, with both halves capped and nudged apart as separate objects you
+  can move, edit, and recolor independently. A tap still selects, so you can slice
+  several objects in a row without leaving the tool.</p>
+  <p>The <strong>More Tools…</strong> button expands into one-tap actions:
+  <strong>Mirror</strong> creates a mirrored duplicate across the scene's center plane
+  (handy for symmetric builds), <strong>Flip H</strong> / <strong>Flip V</strong> reflect the
+  selected object in place, <strong>Clone</strong> duplicates it, and <strong>Hollow</strong>
+  shells a solid object into thin walls (lighter, faster 3D prints).</p>
+  <p>With any tool active, dragging empty space still orbits the camera.</p>
+
+  <h2>Saving &amp; exporting</h2>
+  <p>Everything lives in the <strong>File ▾</strong> menu: save or open portable
+  <strong>.json scene files</strong>, keep a <strong>quick save</strong> scratch slot, and export
+  in three formats. <strong>.glb</strong> (binary glTF) carries your object colors, material
+  finish, textures, and transparency along with the geometry — the best choice for Blender,
+  Unity, or Unreal. <strong>.fbx</strong> (ASCII) includes colors too and opens in Autodesk
+  tools like Maya and FBX Review (Blender needs binary FBX, so use .glb there).
+  <strong>.obj</strong> is geometry-only, ideal for slicers and 3D printing. Deformed
+  geometry is preserved in every format, and in undo.</p>
+
+  <p>Each object also has an <strong>Opacity</strong> slider in its properties panel — drag it
+  down to make the object see-through, useful for glass, ghosts, or previewing overlapping
+  shapes. Transparency is saved with the project and carried into <strong>.glb</strong>
+  exports.</p>
+
+  <h2>Installing &amp; saving to disk</h2>
+  <p>Crucible3D can be <strong>installed to your device</strong> like an app: in Chrome or
+  Edge use the install icon in the address bar; on Android use "Add to Home screen"; on
+  iPhone/iPad use Share → "Add to Home Screen." Once installed it opens in its own window
+  and works offline.</p>
+  <p>On Chrome, Edge, or Opera (desktop), the lobby's <strong>Save to a folder…</strong>
+  button lets you keep every project as a real <strong>.json file</strong> in a folder you
+  choose — easy to back up or sync. Elsewhere, projects are stored in the browser, and you
+  can always use <strong>File ▾ → Save scene file</strong> to export one by hand.</p>
+
+  <h2>Animation (stop-motion)</h2>
+  <p>Click <strong>Animate</strong> to open the timeline. It works like claymation: pose your
+  objects, click <strong>＋ Capture frame</strong> to save that pose, then move things and
+  capture the next frame. Press <strong>▶</strong> to play all frames in sequence, looping,
+  at the speed set by the <strong>FPS</strong> slider.</p>
+  <p>Click any frame chip to jump to it; <strong>Update</strong> overwrites the current frame
+  with the objects' current pose, and the ✕ on a chip deletes it. An object that doesn't
+  exist yet in a given frame simply stays hidden until the frame where you add it — so things
+  can appear and disappear through the animation. Frames are saved with the project, and
+  <strong>Done</strong> leaves animation mode. Poses capture each object's position, rotation,
+  and scale.</p>
+  <p>Turn on <strong>◍ Onion</strong> to see translucent ghosts of the neighbouring frames
+  while you pose — the previous frame tinted warm, the next tinted cool — so you can line up
+  each new pose against the last, the way traditional animators use onion skin.</p>
+  <p>To share a finished animation, use <strong>File ▾ → Export</strong>: <strong>Animated
+  .glb</strong> bakes the frames into keyframe tracks that play in Blender, three.js, and
+  other glTF viewers, while <strong>Animated .gif</strong> renders a looping GIF at your
+  chosen FPS — handy for posting or previews.</p>
+
+  <h2>Keyboard shortcuts</h2>
+  <table>
+    <tr><td>G / R / S</td><td>Move / Rotate / Scale</td></tr>
+    <tr><td>P</td><td>Magic Pen (draw 3D tubes)</td></tr>
+    <tr><td>X / J</td><td>Multi-select / Merge selected</td></tr>
+    <tr><td>H</td><td>Hollow selected object</td></tr>
+    <tr><td>Shift-click</td><td>Add / remove from selection</td></tr>
+    <tr><td>V / F / K</td><td>Deform / Face / Slice (Mesh tools)</td></tr>
+    <tr><td>M</td><td>Mirror across scene center</td></tr>
+    <tr><td>D</td><td>Duplicate selected</td></tr>
+    <tr><td>Delete or Backspace</td><td>Delete selected</td></tr>
+    <tr><td>Esc</td><td>Deselect</td></tr>
+    <tr><td>Ctrl/Cmd + Z</td><td>Undo</td></tr>
+    <tr><td>Ctrl/Cmd + Shift + Z, Ctrl + Y</td><td>Redo</td></tr>
+  </table>
+  <div class="note">Pressing a tool's key again deactivates it. Undo history is capped at
+  50 steps and resets when you switch projects.</div>
+</div>
+</body>
+</html>
