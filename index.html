@@ -64,20 +64,6 @@
   .hero-note{font-family:'IBM Plex Mono';font-size:12.5px;color:var(--ash);margin-top:20px}
   .hero-note b{color:var(--paper);font-weight:500}
 
-  /* live 3D stage */
-  .stage{position:relative;aspect-ratio:1/1;border-radius:20px;overflow:hidden;
-    background:radial-gradient(circle at 50% 40%, #1E222A, #101216 75%);
-    border:1px solid var(--line)}
-  #canvas{width:100%;height:100%;display:block}
-  .stage-badge{position:absolute;left:16px;bottom:16px;font-family:'IBM Plex Mono';font-size:11px;
-    color:var(--ash);background:rgba(14,15,18,.7);backdrop-filter:blur(6px);
-    padding:7px 12px;border-radius:8px;border:1px solid var(--line);display:flex;align-items:center;gap:8px}
-  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--ember);
-    box-shadow:0 0 8px var(--ember);animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .drag-hint{position:absolute;right:16px;top:16px;font-family:'IBM Plex Mono';font-size:10.5px;
-    color:var(--ash);opacity:.7}
-
   /* ---- proof strip ---- */
   .strip{position:relative;z-index:1;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
     background:rgba(27,30,36,.4)}
@@ -183,8 +169,6 @@
 <header class="wrap">
   <div class="hero">
     <div class="hero-copy">
-      <div class="eyebrow">Runs in your browser</div>
-      <h1>Forge 3D models in the tab you<span class="heat"> already have open.</span></h1>
       <p class="lede">Crucible3D is a full modeling and animation studio, currently available for both Windows and Linux</p>
       <div class="cta-row">
         <a href="download/" class="btn btn-primary">Start modeling — free →</a>
@@ -204,8 +188,7 @@
 
 <section id="how" class="wrap">
   <div class="sec-head">
-    <div class="sec-eyebrow">The forge, step by step</div>
-    <h2>From a blank scene to a finished model, <span class="heat">without leaving the page.</span></h2>
+    <div class="sec-eyebrow">From idea to completion, step by step</div>
     <p class="sec-sub">Crucible3D follows the arc of actually making something — each stage flows
       into the next, all in one browser tab.</p>
   </div>
@@ -261,9 +244,6 @@
         <li>Per-project lighting and color themes</li>
         <li>Undo everything · nothing is precious</li>
       </ul>
-    </div>
-    <div class="feat-visual">
-      <canvas id="canvas3" class="mini-canvas"></canvas>
     </div>
   </div>
 </section>
